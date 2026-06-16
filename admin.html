@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="robots" content="noindex,nofollow">
+<title>Admin · Dr. Arvind Kumar Jha · IIT Patna</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Playfair+Display:ital,wght@0,700;1,400;1,700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+body{padding-top:0;background:var(--off)}
+
+#login-screen{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  padding:2rem;
+}
+.login-card{
+  background:var(--white);border:1px solid var(--rule);border-radius:14px;
+  padding:2.5rem;width:100%;max-width:380px;
+}
+.login-title{
+  font-family:'Playfair Display',Georgia,serif;font-size:1.6rem;font-weight:700;
+  color:var(--ink);margin-bottom:.3rem;
+}
+.login-sub{font-size:.82rem;color:var(--muted);margin-bottom:1.8rem}
+.field{margin-bottom:1.1rem}
+.field label{
+  display:block;font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--muted2);font-weight:600;margin-bottom:.4rem;
+}
+.field input,.field textarea,.field select{
+  width:100%;font-family:inherit;font-size:.88rem;color:var(--ink);
+  padding:.65rem .85rem;border:1px solid var(--rule2);border-radius:8px;
+  background:var(--white);transition:border-color .15s;
+}
+.field input:focus,.field textarea:focus,.field select:focus{
+  outline:none;border-color:var(--blue);
+}
+.field textarea{resize:vertical;min-height:70px;font-family:inherit;line-height:1.6}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.checkbox-field{display:flex;align-items:center;gap:.5rem;margin-bottom:1.1rem}
+.checkbox-field input{width:auto}
+.checkbox-field label{margin-bottom:0;font-size:.8rem;letter-spacing:0;text-transform:none;color:var(--ink);font-weight:500}
+
+.btn-submit{
+  width:100%;background:var(--blue);color:var(--white);border:none;
+  font-size:.85rem;font-weight:600;padding:.75rem;border-radius:8px;
+  cursor:pointer;transition:background .2s;
+}
+.btn-submit:hover{background:var(--blue-d)}
+.btn-submit:disabled{opacity:.6;cursor:not-allowed}
+
+#login-error{
+  font-size:.8rem;color:#DC2626;margin-top:.8rem;display:none;
+}
+
+#admin-shell{display:none}
+.admin-header{
+  background:var(--white);border-bottom:1px solid var(--rule);
+  padding:1.2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:1rem;position:sticky;top:0;z-index:50;
+}
+.admin-title{font-family:'Playfair Display',Georgia,serif;font-size:1.25rem;font-weight:700;color:var(--ink)}
+.admin-title span{color:var(--blue);font-style:italic}
+.admin-user{font-size:.78rem;color:var(--muted)}
+.btn-logout{
+  font-size:.75rem;font-weight:600;color:var(--muted);background:none;
+  border:1px solid var(--rule2);border-radius:8px;padding:.5rem 1rem;cursor:pointer;
+  transition:.18s;
+}
+.btn-logout:hover{border-color:var(--ink);color:var(--ink)}
+
+.admin-tabs{
+  display:flex;gap:.3rem;padding:0 2.5rem;background:var(--white);
+  border-bottom:1px solid var(--rule);overflow-x:auto;
+}
+.admin-tab{
+  font-size:.8rem;font-weight:500;color:var(--muted);padding:.9rem 1.1rem;
+  cursor:pointer;border-bottom:2px solid transparent;white-space:nowrap;
+  transition:.15s;
+}
+.admin-tab:hover{color:var(--ink)}
+.admin-tab.active{color:var(--blue);font-weight:600;border-bottom-color:var(--blue)}
+
+.admin-body{padding:2.5rem;max-width:1100px;margin:0 auto}
+.panel{display:none}
+.panel.active{display:block}
+.panel-head{margin-bottom:1.8rem}
+.panel-title{font-family:'Playfair Display',Georgia,serif;font-size:1.6rem;font-weight:700;color:var(--ink);margin-bottom:.3rem}
+.panel-sub{font-size:.85rem;color:var(--muted)}
+
+.card{
+  background:var(--white);border:1px solid var(--rule);border-radius:12px;
+  padding:1.8rem;margin-bottom:1.5rem;position:relative;
+}
+.card-head{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-bottom:1.2rem;gap:1rem;
+}
+.card-badge{
+  font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--blue);
+  font-weight:600;background:var(--blue-l);padding:.3rem .8rem;border-radius:99px;
+}
+.card-actions{display:flex;gap:.5rem;flex-shrink:0}
+
+.btn-sm{
+  font-size:.75rem;font-weight:600;border-radius:8px;padding:.5rem 1rem;
+  cursor:pointer;transition:.18s;border:1px solid transparent;
+}
+.btn-save{background:var(--blue);color:var(--white)}
+.btn-save:hover{background:var(--blue-d)}
+.btn-save:disabled{opacity:.55;cursor:not-allowed}
+.btn-delete{background:transparent;color:#DC2626;border-color:#FCA5A5}
+.btn-delete:hover{background:#FEF2F2}
+.btn-add{
+  background:var(--ink);color:var(--white);font-size:.8rem;font-weight:600;
+  border:none;border-radius:8px;padding:.7rem 1.4rem;cursor:pointer;
+  transition:.2s;display:inline-flex;align-items:center;gap:.4rem;
+}
+.btn-add:hover{background:var(--ink2)}
+
+.save-msg{
+  font-size:.75rem;font-weight:600;margin-left:.6rem;
+  opacity:0;transition:opacity .3s;
+}
+.save-msg.show{opacity:1}
+.save-msg.ok{color:#16A34A}
+.save-msg.err{color:#DC2626}
+
+.loading-state{
+  text-align:center;padding:3rem;color:var(--muted);font-size:.85rem;
+}
+.empty-state{
+  text-align:center;padding:2rem;color:var(--muted2);font-size:.82rem;
+  border:1px dashed var(--rule2);border-radius:10px;
+}
+
+@media(max-width:700px){
+  .admin-header{padding:1rem 1.2rem}
+  .admin-tabs{padding:0 1.2rem}
+  .admin-body{padding:1.5rem}
+  .field-row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div id="login-screen">
+  <div class="login-card">
+    <div class="login-title">Admin Sign In</div>
+    <div class="login-sub">Dr. Arvind Kumar Jha · Portfolio Content Manager</div>
+    <form id="login-form">
+      <div class="field">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" required autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" required autocomplete="current-password">
+      </div>
+      <button type="submit" class="btn-submit" id="login-btn">Sign In</button>
+      <div id="login-error"></div>
+    </form>
+  </div>
+</div>
+
+<div id="admin-shell">
+
+  <header class="admin-header">
+    <div class="admin-title">Dr. Arvind Kumar Jha · <span>Admin Panel</span></div>
+    <div style="display:flex;align-items:center;gap:1rem">
+      <div class="admin-user" id="admin-user-email"></div>
+      <button class="btn-logout" id="logout-btn">Sign Out</button>
+    </div>
+  </header>
+
+  <nav class="admin-tabs" id="admin-tabs">
+    <div class="admin-tab active" data-tab="profile">Profile</div>
+    <div class="admin-tab" data-tab="publications">Publications</div>
+    <div class="admin-tab" data-tab="talks">Talks</div>
+    <div class="admin-tab" data-tab="awards">Awards</div>
+    <div class="admin-tab" data-tab="experience">Experience</div>
+    <div class="admin-tab" data-tab="leadership">Leadership</div>
+    <div class="admin-tab" data-tab="research">Research</div>
+  </nav>
+
+  <main class="admin-body">
+
+    <section class="panel active" id="panel-profile">
+      <div class="panel-head">
+        <div class="panel-title">Profile &amp; Contact</div>
+        <div class="panel-sub">This information appears on the Home and Contact pages.</div>
+      </div>
+      <div id="profile-content" class="loading-state">Loading…</div>
+    </section>
+
+    <section class="panel" id="panel-publications">
+      <div class="panel-head">
+        <div class="panel-title">Publications</div>
+        <div class="panel-sub">Journal papers, book chapters, and conference proceedings.</div>
+      </div>
+      <div id="publications-content" class="loading-state">Loading…</div>
+    </section>
+
+    <section class="panel" id="panel-talks">
+      <div class="panel-head">
+        <div class="panel-title">Invited Talks &amp; Lectures</div>
+        <div class="panel-sub">Keynotes, expert lectures, and FDP sessions.</div>
+      </div>
+      <div id="talks-content" class="loading-state">Loading…</div>
+    </section>
+
+    <section class="panel" id="panel-awards">
+      <div class="panel-head">
+        <div class="panel-title">Awards &amp; Scholarships</div>
+        <div class="panel-sub">Honours and recognitions, shown on the Awards timeline.</div>
+      </div>
+      <div id="awards-content" class="loading-state">Loading…</div>
+    </section>
+
+    <section class="panel" id="panel-experience">
+      <div class="panel-head">
+        <div class="panel-title">Experience &amp; Memberships</div>
+        <div class="panel-sub">Career timeline and professional body memberships.</div>
+      </div>
+      <div id="experience-content" class="loading-state">Loading…</div>
+    </section>
+
+    <section class="panel" id="panel-leadership">
+      <div class="panel-head">
+        <div class="panel-title">Academic Leadership</div>
+        <div class="panel-sub">Convener roles, technical committees, and organised events.</div>
+      </div>
+      <div id="leadership-content" class="loading-state">Loading…</div>
+    </section>
+
+    <section class="panel" id="panel-research">
+      <div class="panel-head">
+        <div class="panel-title">Research Areas &amp; Editorial Service</div>
+        <div class="panel-sub">Research domains, editorial board roles, and peer review.</div>
+      </div>
+      <div id="research-content" class="loading-state">Loading…</div>
+    </section>
+
+  </main>
+</div>
+
+<script src="admin.js" defer></script>
+</body>
+</html>
