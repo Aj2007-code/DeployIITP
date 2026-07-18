@@ -2,7 +2,7 @@
   'use strict';
 
   var SUPABASE_URL      = 'https://paxznobhptoceuhgvrbt.supabase.co';
-  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxwdnV1Z25mbG1laXZ6ZHJuaXljIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1MzQxNzMsImV4cCI6MjA5NzExMDE3M30.x9bShnoTHONKkiWKFi_kZCrxY-WDMFXkzWbhIgaSDbE';
+  var SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InBheHpub2JocHRvY2V1aGd2cmJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE1MjgxMzYsImV4cCI6MjA5NzEwNDEzNn0.SbLn5eMPW_RzhEtcHzWYbEArPdvs9HZynXZ6Y9fczhE';
 
   var path = window.location.pathname;
   var page = path.substring(path.lastIndexOf('/') + 1).replace('.html', '') || 'index';

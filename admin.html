@@ -120,12 +120,39 @@ body{padding-top:0;background:var(--off)}
 <body>
 
 <!-- ════════════════════════════════════════════════════════════
+     LOGIN SCREEN
+═════════════════════════════════════════════════════════════ -->
+<div id="login-screen" style="display:flex;min-height:100vh;align-items:center;justify-content:center;background:var(--off)">
+  <div class="card" style="width:100%;max-width:360px">
+    <div class="card-head" style="margin-bottom:1.4rem">
+      <div class="admin-title">Admin <span>Sign In</span></div>
+    </div>
+    <form id="login-form">
+      <div class="field">
+        <label for="login-email">Email</label>
+        <input type="email" id="login-email" required autocomplete="username">
+      </div>
+      <div class="field">
+        <label for="login-password">Password</label>
+        <input type="password" id="login-password" required autocomplete="current-password">
+      </div>
+      <div id="login-error" style="display:none;color:#DC2626;font-size:.8rem;margin-bottom:1rem"></div>
+      <button type="submit" id="login-btn" class="btn-add" style="width:100%;justify-content:center">Sign In</button>
+    </form>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════════════════════
      ADMIN SHELL
 ═════════════════════════════════════════════════════════════ -->
-<div id="admin-shell">
+<div id="admin-shell" style="display:none">
 
   <header class="admin-header">
     <div class="admin-title">Dr. Arvind Kumar Jha · <span>Admin Panel</span></div>
+    <div style="display:flex;align-items:center;gap:1rem">
+      <span id="admin-user-email" style="font-size:.8rem;color:var(--muted)"></span>
+      <button id="logout-btn" class="btn-sm btn-delete">Log Out</button>
+    </div>
   </header>
 
   <nav class="admin-tabs" id="admin-tabs">
