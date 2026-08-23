@@ -32,6 +32,15 @@ if (ham && mob) {
   });
 }
 
+var navEl = document.getElementById('nav');
+if (navEl) {
+  var setScrolled = function () {
+    navEl.classList.toggle('scrolled', window.scrollY > 8);
+  };
+  setScrolled();
+  window.addEventListener('scroll', setScrolled, { passive: true });
+}
+
 var btt = document.getElementById('btt');
 if (btt) {
   window.addEventListener('scroll', function () {

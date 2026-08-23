@@ -38,7 +38,7 @@
   function injectProfile(p) {
     qsa('.nav-brand-name').forEach(function (e) { text(e, p.name); });
     qsa('.nav-brand-sub').forEach(function (e) {
-      text(e, p.institute_short + ' · ' + p.department.split(' ')[0] + ' Engineering');
+      text(e, (p.institute_short || '') + ' · ' + ((p.department || '').split(' ')[0] || '') + ' Engineering');
     });
 
     var greeting = qs('.intro-greeting');
@@ -67,7 +67,9 @@
       if (label === 'Email') {
         valEl.innerHTML = '<a href="mailto:' + esc(p.email) + '">' + esc(p.email) + '</a>';
       } else if (label === 'Phone') {
-        valEl.innerHTML = '<a href="tel:' + esc(p.phone.replace(/\s/g,'')) + '">' + esc(p.phone) + '</a>';
+        valEl.innerHTML = p.phone
+          ? '<a href="tel:' + esc(p.phone.replace(/\s/g,'')) + '">' + esc(p.phone) + '</a>'
+          : '';
       } else if (label === 'LinkedIn') {
         valEl.innerHTML = '<a href="' + esc(p.linkedin_url) + '" target="_blank" rel="noopener noreferrer">View Profile ↗</a>';
       } else if (label === 'Google Scholar') {
@@ -100,7 +102,7 @@
 
   function injectContact(p) {
     var phoneLink = qs('a[href^="tel:"]');
-    if (phoneLink) {
+    if (phoneLink && p.phone) {
       attr(phoneLink, 'href', 'tel:' + p.phone.replace(/[\s-]/g,''));
       text(phoneLink, p.phone);
     }
@@ -135,14 +137,14 @@
       var badge = p.badge
         ? '<div class="pub-badge">' + esc(p.badge) + '</div>'
         : '';
-      return '<article class="pub-item" role="listitem" data-year="' + p.year + '">' +
+      return '<div class="pub-item" role="listitem" data-year="' + p.year + '">' +
         '<div class="pub-num-col"><div class="pub-n">' + esc(p.number) + '</div><div class="pub-yr">' + p.year + '</div></div>' +
         '<div class="pub-body">' +
           '<div class="pub-title">' + esc(p.title) + '</div>' +
           '<div class="pub-authors">' + esc(p.authors) + '</div>' +
           '<div class="pub-venue">' + esc(p.venue) + '</div>' +
           doi + badge +
-        '</div></article>';
+        '</div></div>';
     }
 
     var jList = el('journal-list');

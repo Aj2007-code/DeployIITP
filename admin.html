@@ -7,25 +7,28 @@
 <title>Admin · Dr. Arvind Kumar Jha · IIT Patna</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,ital@9..144,300,0;9..144,340,0;9..144,400,0;9..144,500,0;9..144,600,0;9..144,400,1;9..144,500,1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,ital@9..144,300,0;9..144,340,0;9..144,400,0;9..144,500,0;9..144,600,0;9..144,400,1;9..144,500,1&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 body{padding-top:0;background:var(--off)}
 
+/* ============================================================
+   LOGIN SCENE — pull-chain desk lamp
+   ============================================================ */
 #login-screen{
   --void:#0A0C11;
   --void-2:#12171D;
-  --brass:#2f8f8a;
-  --brass-light:#3aa89f;
-  --brass-dark:#1f6b67;
-  --glass-off:#12332B;
-  --glass-on:#2E7059;
-  --glow:#8AFFE8;
-  --parchment:#f7fbfa;
-  --ink-card:#16302c;
-  --muted-card:#5a7873;
-  --rule-card:#cfe4de;
+  --brass:#c1893f;
+  --brass-light:#dba658;
+  --brass-dark:#8f6326;
+  --glass-off:#2b2013;
+  --glass-on:#6b4a1c;
+  --glow:#ffc975;
+  --parchment:#f9f7f2;
+  --ink-card:#1d2b3a;
+  --muted-card:#6b7684;
+  --rule-card:#dfe0d8;
 
   position:relative;
   min-height:100vh;
@@ -37,10 +40,11 @@ body{padding-top:0;background:var(--off)}
     var(--void);
 }
 
+/* faint desk edge for grounding */
 #login-screen::after{
   content:"";
   position:absolute;left:0;right:0;bottom:14%;height:1px;
-  background:linear-gradient(90deg, transparent, rgba(47,143,138,.18) 20%, rgba(47,143,138,.18) 80%, transparent);
+  background:linear-gradient(90deg, transparent, rgba(193,137,63,.18) 20%, rgba(193,137,63,.18) 80%, transparent);
 }
 
 .scene{
@@ -51,12 +55,13 @@ body{padding-top:0;background:var(--off)}
   z-index:2;
 }
 
+/* soft ambient light that spreads across the desk when lit */
 .ambient-glow{
   position:absolute;
   left:-120px; top:50%;
   width:640px;height:640px;
   transform:translateY(-52%);
-  background:radial-gradient(circle, rgba(138,255,232,.30) 0%, rgba(138,255,232,.10) 35%, transparent 68%);
+  background:radial-gradient(circle, rgba(255,201,117,.28) 0%, rgba(255,201,117,.09) 35%, transparent 68%);
   filter:blur(6px);
   opacity:0;
   transition:opacity 1s ease;
@@ -65,6 +70,7 @@ body{padding-top:0;background:var(--off)}
 }
 #login-screen.lit .ambient-glow{opacity:1; transition:opacity 1.1s ease .1s;}
 
+/* ---------- lamp ---------- */
 .lamp-col{
   position:relative;
   z-index:1;
@@ -75,9 +81,9 @@ body{padding-top:0;background:var(--off)}
 .lamp-wrap svg{display:block;width:100%;height:auto;overflow:visible}
 
 .glass-stop-a{stop-color:var(--glass-off); transition:stop-color .5s ease;}
-.glass-stop-b{stop-color:#0B241C; transition:stop-color .5s ease;}
+.glass-stop-b{stop-color:#1A1206; transition:stop-color .5s ease;}
 #login-screen.lit .glass-stop-a{stop-color:var(--glass-on);}
-#login-screen.lit .glass-stop-b{stop-color:#1C4E3B;}
+#login-screen.lit .glass-stop-b{stop-color:#4E3510;}
 
 #bulbGlow{opacity:0; transition:opacity .4s ease;}
 #login-screen.lit #bulbGlow{
@@ -106,7 +112,7 @@ body{padding-top:0;background:var(--off)}
   82%{transform:rotate(4deg);}
   100%{transform:rotate(0deg);}
 }
-
+/* gentle idle sway to hint it's interactive, before it's ever pulled */
 #lamp-chain:not(:disabled) .chain-pivot{
   animation:idle-sway 4.5s ease-in-out infinite;
 }
@@ -138,6 +144,7 @@ body{padding-top:0;background:var(--off)}
 }
 #login-screen.lit .lamp-hint{opacity:.45;}
 
+/* ---------- card ---------- */
 .login-card{
   position:relative;
   z-index:1;
@@ -155,7 +162,7 @@ body{padding-top:0;background:var(--off)}
   opacity:1;
   transform:translateX(0) scale(1);
   transition:opacity .8s ease .25s, transform .8s ease .25s, box-shadow .8s ease .25s;
-  box-shadow:0 30px 70px -18px rgba(0,0,0,.45), 0 0 90px -10px rgba(138,255,232,.35);
+  box-shadow:0 30px 70px -18px rgba(0,0,0,.45), 0 0 90px -10px rgba(255,201,117,.35);
 }
 
 .login-title{
@@ -175,7 +182,7 @@ body{padding-top:0;background:var(--off)}
   background:#ffffff;transition:border-color .15s, box-shadow .15s;
 }
 .field input:focus{
-  outline:none;border-color:var(--brass);box-shadow:0 0 0 3px rgba(47,143,138,.18);
+  outline:none;border-color:var(--brass);box-shadow:0 0 0 3px rgba(193,137,63,.18);
 }
 
 .btn-submit{
@@ -204,6 +211,9 @@ body{padding-top:0;background:var(--off)}
   .login-card, .ambient-glow, .glass-stop-a, .glass-stop-b{transition-duration:.2s !important;}
 }
 
+/* ============================================================
+   Original admin-shell styles (unchanged)
+   ============================================================ */
 #admin-shell{display:none}
 .admin-header{
   background:var(--white);border-bottom:1px solid var(--rule);
@@ -305,18 +315,18 @@ body{padding-top:0;background:var(--off)}
         <svg viewBox="0 0 240 250" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <defs>
             <linearGradient id="brassGrad" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="#3aa89f"/>
-              <stop offset="55%" stop-color="#2f8f8a"/>
-              <stop offset="100%" stop-color="#1f6b67"/>
+              <stop offset="0%" stop-color="#dba658"/>
+              <stop offset="55%" stop-color="#c1893f"/>
+              <stop offset="100%" stop-color="#8f6326"/>
             </linearGradient>
             <linearGradient id="glassGrad" x1="0" y1="0" x2="0" y2="1">
               <stop class="glass-stop-a" offset="0%"/>
               <stop class="glass-stop-b" offset="100%"/>
             </linearGradient>
             <radialGradient id="glowGrad" cx="50%" cy="35%" r="65%">
-              <stop offset="0%" stop-color="#D6FFF5" stop-opacity=".95"/>
-              <stop offset="45%" stop-color="#8AFFE8" stop-opacity=".55"/>
-              <stop offset="100%" stop-color="#8AFFE8" stop-opacity="0"/>
+              <stop offset="0%" stop-color="#FFF3D6" stop-opacity=".95"/>
+              <stop offset="45%" stop-color="#FFC975" stop-opacity=".55"/>
+              <stop offset="100%" stop-color="#FFC975" stop-opacity="0"/>
             </radialGradient>
           </defs>
 
@@ -354,7 +364,7 @@ body{padding-top:0;background:var(--off)}
       <form id="login-form">
         <div class="field">
           <label for="login-email">Email</label>
-          <input type="email" id="login-email" required autocomplete="username">
+          <input type="email" id="login-email" required autocomplete="email">
         </div>
         <div class="field">
           <label for="login-password">Password</label>
