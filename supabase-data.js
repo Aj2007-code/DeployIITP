@@ -41,7 +41,7 @@
       text(e, (p.institute_short || '') + ' · ' + ((p.department || '').split(' ')[0] || '') + ' Engineering');
     });
 
-    var greeting = qs('.intro-greeting');
+    var greeting = qs('.profile-strip-text');
     if (greeting) greeting.innerHTML = 'Hello, I am <em>' + esc(p.name) + '</em>';
 
     var bio = qs('.bio');
@@ -101,16 +101,18 @@
   }
 
   function injectContact(p) {
-    var phoneLink = qs('a[href^="tel:"]');
+    var phoneLink = qs('.contact-row a[href^="tel:"]');
     if (phoneLink && p.phone) {
       attr(phoneLink, 'href', 'tel:' + p.phone.replace(/[\s-]/g,''));
       text(phoneLink, p.phone);
     }
-    var emailLink = qs('a[href^="mailto:"]');
+    var emailLink = qs('.contact-row a[href^="mailto:"]');
     if (emailLink) {
       attr(emailLink, 'href', 'mailto:' + p.email);
       text(emailLink, p.email);
     }
+    var navCta = qs('a.nav-cta[href^="mailto:"]');
+    if (navCta) attr(navCta, 'href', 'mailto:' + p.email);
     var deptEl = qs('.contact-row .c-val[data-field="dept"]');
     if (deptEl) deptEl.innerHTML = esc(p.department) + '<br>' + esc(p.institute);
     var addrEl = qs('address');
@@ -148,13 +150,13 @@
     }
 
     var jList = el('journal-list');
-    if (jList && journals.length) jList.innerHTML = journals.map(buildItem).join('');
+    if (jList) jList.innerHTML = journals.map(buildItem).join('');
 
     var bList = el('book-list');
-    if (bList && books.length) bList.innerHTML = books.map(buildItem).join('');
+    if (bList) bList.innerHTML = books.map(buildItem).join('');
 
     var cList = el('conf-list');
-    if (cList && confs.length) cList.innerHTML = confs.map(buildItem).join('');
+    if (cList) cList.innerHTML = confs.map(buildItem).join('');
 
     if (window.__pubFilterInit) window.__pubFilterInit();
   }
